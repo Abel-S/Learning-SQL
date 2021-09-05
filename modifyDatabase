@@ -1,0 +1,45 @@
+/*
+Purpose: Emulate (part of) Hymnal.net's hymnal directory
+Requirements
+1) Create 1+ Table
+2) Insert 3+ rows
+3) Update 1+ rows
+4) Delete 1+ rows
+Personal Bonus: keep the SQL Safer
+*/
+
+CREATE TABLE hymnDir (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    firstLine TEXT,
+    number INTEGER,
+    lyricist TEXT DEFAULT "Unknown");
+
+INSERT INTO hymnDir (firstLine, number, lyricist) VALUES ("Glory be to God the Father", 1, "J. F. Garland");
+INSERT INTO hymnDir (firstLine, number, lyricist) VALUES ("Glory, glory, glory, praise and adoration!", 2, "S. McCallum");
+INSERT INTO hymnDir (firstLine, number) VALUES ("Come, Thou Almighty King", 3);
+INSERT INTO hymnDir (firstLine, number, lyricist) VALUES ("God, our Father, we adore Thee", 5, "Goerge W. Frazer");
+
+/* "I forgot to to add language column"*/
+ALTER TABLE hymnDir ADD Language TEXT DEFAULT "English"; 
+
+/* "I forgot to to add hymn#4"*/
+INSERT INTO hymnDir (firstLine, number) VALUES ("Father of heav'n, whose love profound", 4);
+
+/* "I forgot to to add the author of hymn #4"*/
+SELECT lyricist FROM hymnDir where number=4;
+UPDATE hymnDir SET lyricist="Edward Cooper" WHERE number=4;
+
+/* I think I forgot to add #4?*/
+INSERT INTO hymnDir (firstLine, number) VALUES ("Father of heav'n, whose love profound", 4);
+
+/* "I want to see the first 5 hymns"*/
+SELECT * from hymnDir ORDER BY number LIMIT 5;
+
+/* "I want to delete the incorrect duplicate*/
+SELECT * FROM hymnDir where number = 4;
+DELETE FROM hymnDir where number=4 AND lyricist="Unknown";
+
+/*Check again?*/
+SELECT * from hymnDir ORDER BY number;
+
+/*"That looks about right"*/
